@@ -22,6 +22,9 @@ spec.loader.exec_module(metadata)
 with io.open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+
 setup(
     name=f'{NAMESPACE}.{COMPONENT}',
     version=metadata.__version__,
@@ -35,27 +38,7 @@ setup(
     long_description=long_description,
     author='Tug Nuggy',
     url='',
-    install_requires=[
-        'aiohttp==3.8.6',
-        'aiosignal==1.3.1',
-        'async-timeout==4.0.3',
-        'attrs==23.1.0',
-        'charset-normalizer==3.3.1',
-        'DateTime==4.3',
-        'discord==1.0.1',
-        'discord.py>=2.3.2',
-        'discord-ext-prometheus==0.2.0',
-        'frozenlist==1.4.0',
-        'idna==3.4',
-        'multidict==6.0.4',
-        'python-dateutil==2.8.2',
-        'python-dotenv==0.15.0',
-        'pytz==2023.3.post1',
-        'six==1.16.0',
-        'yarl==1.9.2',
-        'zope.interface==6.1'
-    ]
-    ,
+    install_requires=requirements,
     entry_points={
         'console_scripts': [
             'colorbot=ptn.colorbot.application:run',

@@ -161,6 +161,7 @@ cython_debug/
 
 
 # user
+.vscode/
 
 # Installer logs
 pip-log.txt

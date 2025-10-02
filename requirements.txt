@@ -4,7 +4,6 @@ async-timeout==4.0.3
 attrs==23.1.0
 charset-normalizer==3.3.1
 DateTime==4.3
-discord==1.0.1
 discord.py>=2.3.2
 discord-ext-prometheus==0.2.0
 frozenlist==1.4.0

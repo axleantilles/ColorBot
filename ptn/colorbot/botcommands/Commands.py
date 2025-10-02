@@ -66,8 +66,7 @@ class Commands(commands.Cog):
     @describe(role='the desired role you want the color from')
     async def color(self, interaction: discord.Interaction, role: discord.Role):
         print(f'Color change called from {interaction.user.display_name}')
-        interaction.response.defer(ephemeral=True)
-        # guild = interaction.guild # not used
+        await interaction.response.defer(ephemeral=True)
         user = interaction.user
         allowed_colors = color_permission_check(user.roles)
         print(allowed_colors)

@@ -1,5 +1,4 @@
 import discord
-from pyasn1_modules.rfc3281 import id_mod
 
 # regular roles to check
 from ptn.colorbot.constants import (

@@ -263,11 +263,6 @@ role_to_color = {
     path_role(): color_path_role(),
     spec_role(): color_spec_role()
 }
-async def get_guild():
-    """
-    Return bot guild instance for use in get_member()
-    """
-    return bot.get_guild(bot_guild())
 
 # define the logger for discord client and asyncpraw.
 # TODO: use PTNLogger and extend to all MAB Logging

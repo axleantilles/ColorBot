@@ -14,6 +14,8 @@ import re
 import discord
 from discord import Forbidden
 from discord.ext import commands
+from ptn.colorbot.modules.Helpers import get_channel
+from ptn.colorbot.constants import bot_guild
 
 # import constants
 from ptn.colorbot._metadata import __version__
@@ -43,8 +45,12 @@ class ColorBot(commands.Bot):
             print('-----')
             print(f'{bot.user.name} version: {__version__} has connected to Discord!')
             print('-----')
-            global devchannel
-            devchannel = bot.get_channel(channel_botdev())
+
+            # TODO: I don't know why "devchannel = await get_channel(channel_botdev())" doesn't work here, but
+            #  it don't and this does.
+            guild = await bot.fetch_guild(bot_guild())
+            devchannel = await guild.fetch_channel(channel_botdev())
+
             embed = discord.Embed(
                 title="🌈 COLORBOT ONLINE (on_ready)",
                 description=f"🌈<@{bot.user.id}> connected, version **{__version__}**.",

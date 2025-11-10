@@ -17,9 +17,7 @@ from ptn.colorbot.constants import (
 
 # The color role functions
 from ptn.colorbot.constants import (
-    color_council_role,
     color_alumni_role,
-    color_mod_role,
     color_somm_role,
     color_conn_role,
     color_fo_role,
@@ -46,7 +44,10 @@ def color_permission_check(roles: list):
     # Collecting colors for the roles the user has
     allowed_colors = [role_to_color[role] for role in roles_set if role in role_to_color]
 
-    return allowed_colors
+    # flag mods and councilors
+    is_mod_council = council_role() in roles_set or mod_role() in roles_set
+
+    return allowed_colors, is_mod_council
 
 
 async def remove_color(interaction: discord.Interaction, member: discord.Member = None):

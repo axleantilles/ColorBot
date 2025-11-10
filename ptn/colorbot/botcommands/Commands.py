@@ -35,11 +35,11 @@ class Commands(commands.Cog):
 
     @commands.command(name='ping', aliases=['hello', 'ehlo', 'helo'],
                       help='Use to check if colorbot is online and responding.')
-    @commands.has_any_role(*constants.any_moderation_role)
+    @commands.has_any_role(*constants.any_elevated_role)
     async def ping(self, ctx):
         print(f"{ctx.author} used PING in {ctx.channel.name}")
         embed = discord.Embed(
-            title="🟢 COLOR BOT ONLINE",
+            title="🟢 COLOR BOT ONLINE (ping)",
             description=f"🌈<@{bot.user.id}> connected, version **{__version__}**.",
             color=constants.EMBED_COLOUR_OK
         )
@@ -48,7 +48,7 @@ class Commands(commands.Cog):
         # command to sync interactions - must be done whenever the bot has appcommands added/removed
 
     @commands.command(name='sync', help='Synchronise colorbot interactions with server')
-    @commands.has_any_role(*constants.any_moderation_role)
+    @commands.has_any_role(*constants.any_elevated_role)
     async def sync(self, ctx):
         print(f"Interaction sync called from {ctx.author.display_name}")
         async with ctx.typing():
@@ -66,9 +66,9 @@ class Commands(commands.Cog):
     @describe(role='the desired role you want the color from')
     async def color(self, interaction: discord.Interaction, role: discord.Role):
         print(f'Color change called from {interaction.user.display_name}')
-        guild = interaction.guild
+        await interaction.response.defer(ephemeral=True)
         user = interaction.user
-        allowed_colors = color_permission_check(user.roles)
+        allowed_colors, is_mod_council = color_permission_check(user.roles)
         print(allowed_colors)
 
         if not is_color_role(role):
@@ -84,18 +84,26 @@ class Commands(commands.Cog):
             except Exception as e:
                 return await on_generic_error(interaction=interaction, error=e)
 
+        # check if mod or council
+        if is_mod_council:
+            try:
+                raise CustomError('Council and Mods are not permitted to change color!')
+            except Exception as e:
+                return await on_generic_error(interaction=interaction, error=e)
+
         else:
             # remove any other colors
             await remove_color(interaction=interaction, member=user)
             await user.add_roles(role)
 
             embed = discord.Embed(title=f'✅ Gave you the {role.name} color!', color=constants.EMBED_COLOUR_OK)
-            await interaction.response.send_message(embed=embed, ephemeral=True)
+            await interaction.followup.send(embed=embed, ephemeral=True)
 
     @app_commands.command(name='reset_member_color', description='Admin command for reseting a member\'s color')
     @commands.has_any_role(mod_role(), council_role())
     @describe(member='the member to reset')
     async def reset_member_colors(self, interaction: discord.Interaction, member: discord.Member):
+        await interaction.response.defer(ephemeral=True)
         guild = interaction.guild
 
         functional_role_list = []
@@ -114,7 +122,7 @@ class Commands(commands.Cog):
                 await remove_color(interaction=interaction, member=member)
                 await member.add_roles(color_role)
                 embed = discord.Embed(description=f"✅ Reset <@{member.id}>'s color!", color=constants.EMBED_COLOUR_OK)
-                await interaction.response.send_message(embed=embed, ephemeral=True)
+                await interaction.followup.send(embed=embed, ephemeral=True)
         else:
             try:
                 raise CustomError('That user is not elevated!')

@@ -5,6 +5,7 @@ The Python script that starts the bot.
 
 # import libraries
 import asyncio
+import logging
 import os
 
 from discord.ext.prometheus import PrometheusCog
@@ -13,7 +14,8 @@ from discord.ext.prometheus import PrometheusCog
 from ptn.colorbot.botcommands.Commands import Commands
 
 # import bot object, token, production status
-from ptn.colorbot.constants import TOKEN, _production, DATA_DIR
+from ptn.colorbot.constants import TOKEN, _production, DATA_DIR, log_handler, LOG_LEVEL
+from discord.utils import setup_logging
 from ptn.colorbot.bot import bot
 
 print(f"Data dir is {DATA_DIR} from {os.path.join(os.getcwd(), 'ptn', 'colorbot', DATA_DIR, 'ptn/colorbot/.env')}")
@@ -29,6 +31,7 @@ async def colorbot():
     async with bot:
         await bot.add_cog(Commands(bot))
         await bot.add_cog(PrometheusCog(bot))
+        setup_logging(handler=log_handler, level=LOG_LEVEL)
         await bot.start(TOKEN)
 
 

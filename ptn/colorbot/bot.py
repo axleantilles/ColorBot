@@ -17,7 +17,7 @@ from discord.ext import commands
 
 # import constants
 from ptn.colorbot._metadata import __version__
-from ptn.colorbot.constants import channel_botspam, EMBED_COLOUR_OK
+from ptn.colorbot.constants import channel_botdev, EMBED_COLOUR_OK
 
 
 
@@ -30,10 +30,12 @@ Bot object
 # define bot object
 class ColorBot(commands.Bot):
     def __init__(self):
-        intents = discord.Intents.all()
-        intents.message_content = True
+        intents = discord.Intents.none()
+        intents.guilds = True
+        intents.members = True
+        intents.messages = True
 
-        super().__init__(command_prefix=commands.when_mentioned_or('🌈'), intents=intents)
+        super().__init__(command_prefix=commands.when_mentioned_or('🌈'), intents=intents, chunk_guilds_at_startup=False)
 
     async def on_ready(self):
         try:
@@ -41,14 +43,14 @@ class ColorBot(commands.Bot):
             print('-----')
             print(f'{bot.user.name} version: {__version__} has connected to Discord!')
             print('-----')
-            global spamchannel
-            spamchannel = bot.get_channel(channel_botspam())
+            global devchannel
+            devchannel = bot.get_channel(channel_botdev())
             embed = discord.Embed(
-                title="🌈 COLORBOT ONLINE",
+                title="🌈 COLORBOT ONLINE (on_ready)",
                 description=f"🌈<@{bot.user.id}> connected, version **{__version__}**.",
                 color=EMBED_COLOUR_OK
             )
-            await spamchannel.send(embed=embed)
+            await devchannel.send(embed=embed)
 
         except Exception as e:
             print(e)

@@ -39,7 +39,6 @@ class ColorBot(commands.Bot):
         try:
             # TODO: this should be moved to an on_setup hook
             logging.info(f"{bot.user.name} version: {__version__} has connected to Discord!")
-            # "devchannel = await get_channel(channel_botdev())" doesn't work here because it requires a circlar import
             guild = await bot.fetch_guild(bot_guild())
             devchannel = await guild.fetch_channel(channel_botdev())
 

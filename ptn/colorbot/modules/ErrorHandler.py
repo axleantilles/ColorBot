@@ -42,9 +42,8 @@ class GenericError(Exception):  # generic error
     pass
 
 
-class CustomError(
-    Exception
-):  # an error handler that hides the Exception text from the user, but shows custom text sent from the source instead
+class CustomError(Exception):
+    """Error handler that hides the Exception text from the user and shows custom text from source"""
     def __init__(self, message, isprivate=True):
         self.message = message
         self.isprivate = isprivate

@@ -72,9 +72,9 @@ async def remove_color(interaction: discord.Interaction, member: discord.Member 
 
     if roles_to_remove:
         await member.remove_roles(*roles_to_remove)
-        print(f"Removed {len(roles_to_remove)} color role(s) from {member.name}.")
+        logging.info(f"Removed {len(roles_to_remove)} color role(s) from {member.name}.")
     else:
-        print(f"{member.name} has no color roles.")
+        logging.info(f"{member.name} has no color roles.")
 
 
 async def get_guild(guild: int = bot_guild()) -> Optional[Guild]:

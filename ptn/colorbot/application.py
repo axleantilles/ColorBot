@@ -18,9 +18,6 @@ from ptn.colorbot.constants import TOKEN, _production, DATA_DIR, log_handler, LO
 from discord.utils import setup_logging
 from ptn.colorbot.bot import bot
 
-print(f"Data dir is {DATA_DIR} from {os.path.join(os.getcwd(), 'ptn', 'colorbot', DATA_DIR, 'ptn/colorbot/.env')}")
-
-print(f'PTN ColorBot is connecting against production: {_production}.')
 
 
 def run():
@@ -32,6 +29,8 @@ async def colorbot():
         await bot.add_cog(Commands(bot))
         await bot.add_cog(PrometheusCog(bot))
         setup_logging(handler=log_handler, level=LOG_LEVEL)
+        logging.info(f"Data dir is {DATA_DIR} from {os.path.join(os.getcwd(), 'ptn', 'colorbot', DATA_DIR, 'ptn/colorbot/.env')}")
+        logging.info(f'PTN ColorBot is connecting against production: {_production}.')
         await bot.start(TOKEN)
 
 

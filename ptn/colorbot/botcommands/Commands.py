@@ -2,6 +2,7 @@
 import asyncio
 
 import discord
+import logging
 from discord import app_commands
 from discord.app_commands import describe
 from discord.ext import commands
@@ -37,7 +38,7 @@ class Commands(commands.Cog):
                       help='Use to check if colorbot is online and responding.')
     @commands.has_any_role(*constants.any_elevated_role)
     async def ping(self, ctx):
-        print(f"{ctx.author} used PING in {ctx.channel.name}")
+        logging.info(f"{ctx.author} used PING in {ctx.channel.name}")
         embed = discord.Embed(
             title="🟢 COLOR BOT ONLINE (ping)",
             description=f"🌈<@{bot.user.id}> connected, version **{__version__}**.",
@@ -50,31 +51,33 @@ class Commands(commands.Cog):
     @commands.command(name='sync', help='Synchronise colorbot interactions with server')
     @commands.has_any_role(*constants.any_elevated_role)
     async def sync(self, ctx):
-        print(f"Interaction sync called from {ctx.author.display_name}")
+        logging.info(f"Interaction sync called from {ctx.author.display_name}")
         async with ctx.typing():
             try:
                 bot.tree.copy_global_to(guild=constants.guild_obj)
                 await bot.tree.sync(guild=constants.guild_obj)
-                print("Synchronised bot tree.")
+                logging.info("Synchronised bot tree.")
                 await ctx.send("Synchronised bot tree.")
             except Exception as e:
-                print(f"Tree sync failed: {e}.")
+                logging.error(f"Tree sync failed: {e}.")
+                logging.exception(e)
                 return await ctx.send(f"Failed to sync bot tree: {e}")
 
     @app_commands.command(name='color', description='Changes your desired display color')
     @commands.has_any_role(*constants.any_elevated_role)
     @describe(role='the desired role you want the color from')
     async def color(self, interaction: discord.Interaction, role: discord.Role):
-        print(f'Color change called from {interaction.user.display_name}')
+        logging.info(f'Color change called from {interaction.user.display_name}')
         await interaction.response.defer(ephemeral=True)
         user = interaction.user
         allowed_colors, is_mod_council = color_permission_check(user.roles)
-        print(allowed_colors)
+        logging.debug(allowed_colors)
 
         if not is_color_role(role):
             try:
                 raise CustomError('That role isn\'t a color role!')
             except Exception as e:
+                logging.error(e)
                 return await on_generic_error(interaction=interaction, error=e)
 
         # check if user is allowed to have the color
@@ -82,6 +85,7 @@ class Commands(commands.Cog):
             try:
                 raise CustomError('You don\'t have access to that role!')
             except Exception as e:
+                logging.error(e)
                 return await on_generic_error(interaction=interaction, error=e)
 
         # check if mod or council
@@ -89,15 +93,16 @@ class Commands(commands.Cog):
             try:
                 raise CustomError('Council and Mods are not permitted to change color!')
             except Exception as e:
+                logging.error(e)
                 return await on_generic_error(interaction=interaction, error=e)
 
         else:
             # remove any other colors
             await remove_color(interaction=interaction, member=user)
             await user.add_roles(role)
-
+            logging.debug(f'Color change succeeded!')
             embed = discord.Embed(title=f'✅ Gave you the {role.name} color!', color=constants.EMBED_COLOUR_OK)
-            await interaction.followup.send(embed=embed, ephemeral=True)
+            return await interaction.followup.send(embed=embed, ephemeral=True)
 
     @app_commands.command(name='reset_member_color', description='Admin command for reseting a member\'s color')
     @commands.has_any_role(mod_role(), council_role())
@@ -114,10 +119,10 @@ class Commands(commands.Cog):
 
         top_role = highest_role(member, functional_roles)
         if top_role:
-            #print(top_role)
+            logging.debug(f'top_role: {top_role}')
             color_role_id = constants.role_to_color.get(top_role)
             color_role = await get_role(color_role_id)
-            #print(color_role)
+            logging.debug(f'color_role: {color_role}')
             if color_role:
                 await remove_color(interaction=interaction, member=member)
                 await member.add_roles(color_role)
@@ -171,7 +176,8 @@ class Commands(commands.Cog):
             try:
                 await interaction.followup.send(embed=completion_message, ephemeral=True)
             except Exception as e:
-                print(f"Error sending completion message: {e}")
+                logging.error(f"Error sending completion message: {e}")
+                logging.exception(e)
 
         # Launch the main operation as a separate asynchronous task
         await asyncio.create_task(reset_colors())

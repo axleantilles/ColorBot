@@ -12,14 +12,13 @@ import re
 
 # import discord
 import discord
+import logging
 from discord import Forbidden
 from discord.ext import commands
-from ptn.colorbot.modules.Helpers import get_channel
-from ptn.colorbot.constants import bot_guild
 
 # import constants
 from ptn.colorbot._metadata import __version__
-from ptn.colorbot.constants import channel_botdev, EMBED_COLOUR_OK
+from ptn.colorbot.constants import bot_guild, channel_botdev, channel_botspam, EMBED_COLOUR_OK
 
 
 
@@ -42,10 +41,7 @@ class ColorBot(commands.Bot):
     async def on_ready(self):
         try:
             # TODO: this should be moved to an on_setup hook
-            print('-----')
-            print(f'{bot.user.name} version: {__version__} has connected to Discord!')
-            print('-----')
-
+            logging.info(f'{bot.user.name} version: {__version__} has connected to Discord!')
             # TODO: I don't know why "devchannel = await get_channel(channel_botdev())" doesn't work here, but
             #  it don't and this does.
             guild = await bot.fetch_guild(bot_guild())
@@ -59,12 +55,10 @@ class ColorBot(commands.Bot):
             await devchannel.send(embed=embed)
 
         except Exception as e:
-            print(e)
+            logging.exception(e)
 
     async def on_disconnect(self):
-        print('-----')
-        print(f'🔌colorbot has disconnected from discord server, version: {__version__}.')
-        print('-----')
+        logging.warning(f'🔌colorbot has disconnected from discord server, version: {__version__}.')
 
 
 bot = ColorBot()

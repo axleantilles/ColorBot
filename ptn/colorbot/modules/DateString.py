@@ -3,10 +3,11 @@ Module to return formatted date strings.
 
 Depends on: none
 """
+
 import logging
+import time
 # import libraries
 from datetime import datetime
-import time
 
 
 # get date and time

@@ -1,45 +1,18 @@
 import logging
-
-import discord
-from discord import Guild, Thread, Role
-from discord.abc import GuildChannel
-from discord.errors import NotFound
 from typing import Optional
 
-# regular roles to check
-from ptn.colorbot.constants import (
-    council_role,
-    alumni_role,
-    mod_role,
-    somm_role,
-    conn_role,
-    fo_role,
-    agent_role,
-    cm_role,
-    pillar_role,
-    cco_role,
-    grape_role,
-    functional_roles,
-    role_to_color,
-    bot_guild
-)
+import discord
+from discord import Guild, Role, Thread
+from discord.abc import GuildChannel
+from discord.errors import NotFound
 
 from ptn.colorbot.bot import bot
-
-# The color role functions
-from ptn.colorbot.constants import (
-    color_alumni_role,
-    color_somm_role,
-    color_conn_role,
-    color_fo_role,
-    color_agent_role,
-    color_cm_role,
-    color_pillar_role,
-    color_cco_role,
-    color_grape_role
-)
 # functions
-from ptn.colorbot.constants import color_roles
+# The color role functions
+# regular roles to check
+from ptn.colorbot.constants import (
+    bot_guild, color_roles, council_role, mod_role, role_to_color
+)
 
 
 def color_permission_check(roles: list):

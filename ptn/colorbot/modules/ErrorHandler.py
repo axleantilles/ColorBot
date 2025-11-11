@@ -14,7 +14,7 @@ from discord.app_commands import AppCommandError
 
 # import local constants
 import ptn.colorbot.constants as constants
-from ptn.colorbot.constants import bot, channel_botspam
+from ptn.colorbot.constants import channel_botspam
 from ptn.colorbot.modules.Helpers import get_channel
 
 # custom errors

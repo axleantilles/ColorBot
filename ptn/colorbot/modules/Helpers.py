@@ -21,9 +21,10 @@ from ptn.colorbot.constants import (
     grape_role,
     functional_roles,
     role_to_color,
-    bot,
     bot_guild
 )
+
+from ptn.colorbot.bot import bot
 
 # The color role functions
 from ptn.colorbot.constants import (

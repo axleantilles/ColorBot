@@ -18,15 +18,12 @@ from discord.ext import commands
 
 # import constants
 from ptn.colorbot._metadata import __version__
-from ptn.colorbot.constants import bot_guild, channel_botdev, channel_botspam, EMBED_COLOUR_OK
-
-
+from ptn.colorbot.constants import bot_guild, channel_botdev, EMBED_COLOUR_OK
 
 
 """
 Bot object
 """
-
 
 # define bot object
 class ColorBot(commands.Bot):
@@ -42,8 +39,7 @@ class ColorBot(commands.Bot):
         try:
             # TODO: this should be moved to an on_setup hook
             logging.info(f'{bot.user.name} version: {__version__} has connected to Discord!')
-            # TODO: I don't know why "devchannel = await get_channel(channel_botdev())" doesn't work here, but
-            #  it don't and this does.
+            # "devchannel = await get_channel(channel_botdev())" doesn't work here because it requires a circlar import
             guild = await bot.fetch_guild(bot_guild())
             devchannel = await guild.fetch_channel(channel_botdev())
 

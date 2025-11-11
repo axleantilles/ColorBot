@@ -8,11 +8,14 @@ from discord.app_commands import describe
 from discord.ext import commands
 
 import ptn.colorbot.constants as constants
+
 # local constants
 from ptn.colorbot._metadata import __version__
+
 # import bot
 from ptn.colorbot.bot import bot
 from ptn.colorbot.constants import council_role, functional_roles, mod_role
+
 # local modules
 from ptn.colorbot.modules.ErrorHandler import CustomError, on_app_command_error, on_generic_error
 from ptn.colorbot.modules.Helpers import color_permission_check, get_role, highest_role, is_color_role, remove_color
@@ -137,7 +140,6 @@ class Commands(commands.Cog):
     @app_commands.command(name="reset_all_members_color", description="Admin command for resetting all member's colors")
     @commands.has_any_role(constants.council_role())
     async def reset_member_all_colors(self, interaction: discord.Interaction):
-
         # Notify user the process is starting
         initial_message = discord.Embed(
             title="🔄 Starting to reset all elevated members' colors...", color=constants.EMBED_COLOUR_OK

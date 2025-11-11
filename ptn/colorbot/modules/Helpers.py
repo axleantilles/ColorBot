@@ -7,12 +7,11 @@ from discord.abc import GuildChannel
 from discord.errors import NotFound
 
 from ptn.colorbot.bot import bot
+
 # functions
 # The color role functions
 # regular roles to check
-from ptn.colorbot.constants import (
-    bot_guild, color_roles, council_role, mod_role, role_to_color
-)
+from ptn.colorbot.constants import bot_guild, color_roles, council_role, mod_role, role_to_color
 
 
 def color_permission_check(roles: list):

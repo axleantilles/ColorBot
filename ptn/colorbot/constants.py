@@ -29,9 +29,6 @@ load_dotenv(os.path.join(DATA_DIR, ".env"))
 # define bot token
 TOKEN = os.getenv("COLORBOT_DISCORD_TOKEN_PROD") if _production else os.getenv("COLORBOT_DISCORD_TOKEN_TESTING")
 
-# define bot object
-bot = commands.Bot(command_prefix="c!", intents=discord.Intents.all())
-
 # Production variables
 PROD_DISCORD_GUILD = 800080948716503040  # PTN server ID
 PROD_CHANNEL_BOTSPAM = 801258393205604372  # PTN bot-spam channel

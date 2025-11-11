@@ -44,6 +44,7 @@ class GenericError(Exception):  # generic error
 
 class CustomError(Exception):
     """Error handler that hides the Exception text from the user and shows custom text from source"""
+
     def __init__(self, message, isprivate=True):
         self.message = message
         self.isprivate = isprivate
@@ -101,9 +102,8 @@ async def on_generic_error(interaction: Interaction, error):  # an error handler
         logging.error(f"Error {error} was not caught by on_generic_error")
 
 
-async def on_app_command_error(
-    interaction: Interaction, error: AppCommandError
-):  # an error handler for discord.py errors
+async def on_app_command_error(interaction: Interaction, error: AppCommandError):
+    """Error handler for discord.py errors"""
     logging.error(
         f"Error from {interaction.command.name} in {interaction.channel.name} called by {interaction.user.display_name}: {error}"
     )

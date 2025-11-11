@@ -12,8 +12,10 @@ from discord.ext.prometheus import PrometheusCog
 from discord.utils import setup_logging
 
 from ptn.colorbot.bot import bot
+
 # import bot Cogs
 from ptn.colorbot.botcommands.Commands import Commands
+
 # import bot object, token, production status
 from ptn.colorbot.constants import DATA_DIR, LOG_LEVEL, TOKEN, _production, log_handler
 

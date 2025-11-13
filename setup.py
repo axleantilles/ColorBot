@@ -33,7 +33,6 @@ setup(
         "ptn.colorbot.botcommands",  # user interactions
         "ptn.colorbot.modules",  # various helper modules
         "ptn.colorbot.classes",  # classes used by the bot
-        "ptn.util" # utilities
     ],
     description="Pilots Trade Network Color Bot",
     long_description=long_description,

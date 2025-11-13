@@ -19,7 +19,7 @@ from ptn.colorbot._metadata import __version__
 from ptn.colorbot.constants import EMBED_COLOUR_OK, bot_guild, channel_botdev
 
 # import utils
-from ptn.util.GetOrFetch import GetOrFetch
+from ptn_utils.get_or_fetch import GetOrFetch
 
 """
 Bot object

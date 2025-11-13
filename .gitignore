@@ -176,6 +176,3 @@ test.py
 
 # secrets
 .env
-
-# submodules
-ptn/util

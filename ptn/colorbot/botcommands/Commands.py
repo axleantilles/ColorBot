@@ -18,8 +18,7 @@ from ptn.colorbot.constants import council_role, functional_roles, mod_role
 
 # local modules
 from ptn.colorbot.modules.ErrorHandler import CustomError, on_app_command_error, on_generic_error
-from ptn.colorbot.modules.Helpers import color_permission_check, get_role, highest_role, is_color_role, remove_color
-
+from ptn.colorbot.modules.Helpers import color_permission_check, highest_role, is_color_role, remove_color
 
 class Commands(commands.Cog):
     def __init__(self, bot: commands.Cog):
@@ -124,7 +123,7 @@ class Commands(commands.Cog):
         if top_role:
             logging.debug(f"top_role: {top_role}")
             color_role_id = constants.role_to_color.get(top_role)
-            color_role = await get_role(color_role_id)
+            color_role = await bot.get_or_fetch.role(color_role_id)
             logging.debug(f"color_role: {color_role}")
             if color_role:
                 await remove_color(interaction=interaction, member=member)

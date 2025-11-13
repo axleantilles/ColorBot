@@ -50,33 +50,6 @@ async def remove_color(interaction: discord.Interaction, member: discord.Member 
         logging.info(f"{member.name} has no color roles.")
 
 
-async def get_guild(guild: int = bot_guild()) -> Optional[Guild]:
-    """Return bot guild instance for use in get_member()"""
-    try:
-        return bot.get_guild(guild) or await bot.fetch_guild(guild)
-    except Exception as e:
-        logging.exception(e)
-        return None
-
-
-async def get_channel(channel_id: int) -> Optional[GuildChannel | Thread]:
-    """Fetch a channel or thread from the guild."""
-    guild = await get_guild()
-    try:
-        return guild.get_channel(channel_id) or await guild.fetch_channel(channel_id)
-    except NotFound:
-        return None
-
-
-async def get_role(role_id: int) -> Optional[Role]:
-    """Fetch a role from the guild."""
-    guild = await get_guild()
-    try:
-        return guild.get_role(role_id) or await guild.fetch_role(role_id)
-    except NotFound:
-        return None
-
-
 def is_color_role(role: discord.Role) -> bool:
     """Check if a given role is a color role."""
     return role.id in color_roles

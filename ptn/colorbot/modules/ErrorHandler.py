@@ -16,7 +16,8 @@ from discord.app_commands import AppCommandError
 # import local constants
 import ptn.colorbot.constants as constants
 from ptn.colorbot.constants import channel_botspam
-from ptn.colorbot.modules.Helpers import get_channel
+from ptn.colorbot.bot import bot
+
 
 
 # custom errors
@@ -60,7 +61,7 @@ returns: the error message to the user and log
 
 async def on_generic_error(interaction: Interaction, error):  # an error handler for our custom errors
     try:
-        spamchannel = await get_channel(channel_botspam())
+        spamchannel = await bot.get_or_fetch.channel(channel_botspam())
         spam_embed = discord.Embed(
             description=f"Error from `{interaction.command.name}` in <#{interaction.channel.id}> called by <@{interaction.user.id}>: ```{error}```",
             color=constants.EMBED_COLOUR_ERROR,
